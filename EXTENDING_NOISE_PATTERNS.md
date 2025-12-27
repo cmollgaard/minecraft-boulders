@@ -1,17 +1,20 @@
-# Extending Minecraft Noise Pattern Terrain Generation
+# Extending Minecraft Noise Pattern Terrain Generation (Java Edition)
 
-This guide explains how to extend Minecraft's existing terrain generation with custom features that integrate with the world's noise patterns. This is a practical guide focused on **how to extend** the system, not on how the underlying noise system works.
+This guide explains how to extend Minecraft Java Edition's existing terrain generation with custom features that integrate with the world's noise patterns. This is a practical guide focused on **how to extend** the system, not on how the underlying noise system works.
+
+> **⚠️ Java Edition Only**: This guide is specifically for Minecraft Java Edition (1.18+) using datapacks. For Bedrock Edition information, see the [Bedrock Edition section](#bedrock-edition-differences) below.
 
 ## Table of Contents
 
 1. [Prerequisites](#prerequisites)
-2. [Extension Approaches](#extension-approaches)
-3. [Approach 1: Using Noise in Placed Features](#approach-1-using-noise-in-placed-features)
-4. [Approach 2: Custom Density Functions](#approach-2-custom-density-functions)
-5. [Practical Example: Terrain-Aware Boulders](#practical-example-terrain-aware-boulders)
-6. [Best Practices](#best-practices)
-7. [Troubleshooting](#troubleshooting)
-8. [Useful Tools](#useful-tools)
+2. [Bedrock Edition Differences](#bedrock-edition-differences)
+3. [Extension Approaches](#extension-approaches)
+4. [Approach 1: Using Noise in Placed Features](#approach-1-using-noise-in-placed-features)
+5. [Approach 2: Custom Density Functions](#approach-2-custom-density-functions)
+6. [Practical Example: Terrain-Aware Boulders](#practical-example-terrain-aware-boulders)
+7. [Best Practices](#best-practices)
+8. [Troubleshooting](#troubleshooting)
+9. [Useful Tools](#useful-tools)
 
 ## Prerequisites
 
@@ -21,6 +24,104 @@ Before extending Minecraft's noise patterns, you should have:
 - Basic understanding of datapack file organization
 - Familiarity with JSON syntax
 - Minecraft Java Edition 1.18+ (when the new worldgen system was introduced)
+
+## Bedrock Edition Differences
+
+### Does This Work for Bedrock Edition?
+
+**No, this guide is Java Edition specific.** Bedrock Edition uses a completely different system for terrain customization.
+
+### Key Differences
+
+| Feature | Java Edition | Bedrock Edition |
+|---------|--------------|-----------------|
+| **Customization Method** | Datapacks with JSON worldgen files | Add-ons with JSON + scripts |
+| **Noise Access** | Full control over density functions and noise parameters | Limited noise queries via Molang expressions |
+| **Terrain Generation** | Can directly modify terrain algorithms | Feature placement only, cannot rewrite terrain generation |
+| **File Structure** | `data/<namespace>/worldgen/` with density_function, noise, placed_feature | `behavior_packs/` with features and biomes |
+| **Flexibility** | Very high - modify any aspect of terrain | Limited - work within existing terrain system |
+
+### Achieving Similar Effects in Bedrock Edition
+
+To create terrain-aware features like boulders in Bedrock Edition:
+
+**1. Use Feature Placement with Noise Queries**
+
+Bedrock Edition supports noise-based queries in Molang expressions. Example for a custom feature:
+
+```json
+{
+  "format_version": "1.13.0",
+  "minecraft:scatter_feature": {
+    "description": {
+      "identifier": "mypack:boulder_feature"
+    },
+    "places_feature": "mypack:boulder_structure",
+    "scatter_chance": {
+      "numerator": 1,
+      "denominator": 4
+    },
+    "x": {
+      "distribution": "uniform",
+      "extent": [0, 15]
+    },
+    "z": "q.noise(v.originx, v.originz) > 0.3 ? math.random(0, 15) : -1",
+    "y": "q.heightmap(v.worldx, v.worldz)"
+  }
+}
+```
+
+**Key Bedrock Noise Queries:**
+- `q.noise(x, z)` - Returns 2D Perlin noise value (-1.0 to 1.0)
+- `q.heightmap(x, z)` - Returns terrain height at coordinates
+
+**2. Limitations**
+
+- Cannot access the full terrain noise system like Java Edition
+- Cannot modify terrain shape itself, only place features on existing terrain
+- Noise queries are simpler (2D only, limited parameters)
+- Cannot reference vanilla noise patterns like "continentalness" or "erosion"
+
+**3. Alternative Approaches**
+
+For Bedrock Edition terrain-aware features:
+
+- **Biome-based placement**: Define custom biomes that generate in specific terrain types
+- **Height-based conditions**: Use `q.heightmap()` to place features based on elevation
+- **Combined conditions**: Use Molang expressions combining noise, height, and biome checks
+
+**Example - Height and Noise Based Boulder Placement:**
+
+```json
+{
+  "format_version": "1.13.0",
+  "minecraft:scatter_feature": {
+    "description": {
+      "identifier": "mypack:mountain_boulder"
+    },
+    "places_feature": "mypack:boulder",
+    "scatter_chance": "q.heightmap(v.worldx, v.worldz) > 80 && q.noise(v.worldx * 0.1, v.worldz * 0.1) > 0.2 ? 0.8 : 0.1"
+  }
+}
+```
+
+This places more boulders when height > 80 and noise value is high (mountainous areas).
+
+### Resources for Bedrock Edition
+
+- **[Bedrock Wiki - Heightmap Noise](https://wiki.bedrock.dev/world-generation/heightmap-noise)**: Official guide for noise queries
+- **[Microsoft Learn - World Generation](https://learn.microsoft.com/en-us/minecraft/creator/documents/world-generation)**: Bedrock world generation overview
+- **[Bedrock Biome Generator](https://bedrockbiomegenerator.icedfoxstudios.com/)**: Tool for creating custom biomes
+
+### Summary
+
+For the **same effect as this guide** (terrain-aware boulder generation):
+- **Java Edition**: Use this guide's approach with placed features and `noise_threshold_count`
+- **Bedrock Edition**: Use scatter features with Molang noise queries like `q.noise()` and height checks
+
+Bedrock Edition offers basic terrain-aware placement but cannot match Java Edition's deep integration with the noise-based terrain generation system.
+
+---
 
 ## Extension Approaches
 
