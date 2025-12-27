@@ -20,9 +20,10 @@ This project creates a Minecraft datapack that adds configurable, terrain-aware 
 ### Platform/Framework
 
 - **Platform**: Minecraft Java Edition 1.20+
-- **Format**: Data Pack (pack_format 18, with support for formats 15-18)
+- **Format**: Data Pack (pack_format 18, with fallback support for 15-17)
 - **Language**: JSON configuration files
 - **Namespace**: `boulders`
+- **Note**: While pack.mcmeta declares support for formats 15-18, the density functions and worldgen features used are optimized for Minecraft 1.20+ (format 18). Earlier versions may have limited or no functionality.
 
 ### File Structure
 
@@ -40,9 +41,9 @@ minecraft-boulders/
             │   ├── medium_boulder.json  # 6-12 blocks (tries: 6, xz_spread: 3)
             │   └── large_boulder.json   # 13-25 blocks (tries: 12, xz_spread: 4)
             ├── placed_feature/          # Placement rules with height-based spawning
-            │   ├── small_boulder.json   # Y=50-160, rarity: 1/12
-            │   ├── medium_boulder.json  # Y=70-180, rarity: 1/8
-            │   └── large_boulder.json   # Y=90-200, rarity: 1/5
+            │   ├── small_boulder.json   # Y=50-160, rarity chance: 12 (1-in-12)
+            │   ├── medium_boulder.json  # Y=70-180, rarity chance: 8 (1-in-8)
+            │   └── large_boulder.json   # Y=90-200, rarity chance: 5 (1-in-5)
             └── density_function/        # Terrain-aware distribution
                 ├── terrain_height_factor.json  # Y-gradient (60-200)
                 └── boulder_density.json        # Noise + height factor
