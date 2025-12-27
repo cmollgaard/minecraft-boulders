@@ -65,7 +65,7 @@ Bedrock Edition supports noise-based queries in Molang expressions. Example for 
       "distribution": "uniform",
       "extent": [0, 15]
     },
-    "z": "q.noise(v.originx, v.originz) > 0.3 ? math.random(0, 15) : -1",
+    "z": "q.noise(v.worldx, v.worldz) > 0.3 ? math.random(0, 15) : -1",
     "y": "q.heightmap(v.worldx, v.worldz)"
   }
 }
@@ -100,12 +100,15 @@ For Bedrock Edition terrain-aware features:
       "identifier": "mypack:mountain_boulder"
     },
     "places_feature": "mypack:boulder",
-    "scatter_chance": "q.heightmap(v.worldx, v.worldz) > 80 && q.noise(v.worldx * 0.1, v.worldz * 0.1) > 0.2 ? 0.8 : 0.1"
+    "scatter_chance": {
+      "numerator": 1,
+      "denominator": "q.heightmap(v.worldx, v.worldz) > 80 && q.noise(v.worldx * 0.1, v.worldz * 0.1) > 0.2 ? 2 : 10"
+    }
   }
 }
 ```
 
-This places more boulders when height > 80 and noise value is high (mountainous areas).
+This places boulders with 1/2 (50%) chance in mountainous areas (height > 80 with high noise) and 1/10 (10%) chance elsewhere.
 
 ### Resources for Bedrock Edition
 
