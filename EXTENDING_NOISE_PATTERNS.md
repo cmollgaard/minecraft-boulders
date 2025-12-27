@@ -557,6 +557,14 @@ Use clear, descriptive names:
 - **Minecraft Commands Discord server**
 - **Planet Minecraft** tutorials and examples
 
+### Noise Visualization Tool
+
+- **[experiments/](experiments/)**: Python scripts to visualize noise patterns in 2D and 3D
+  - See how different noise parameters affect terrain
+  - Test custom boulder placement patterns
+  - Visualize combined noise before implementing in datapacks
+  - Run: `python experiments/visualize_noise.py --seed 12345`
+
 ## Next Steps
 
 Now that you understand how to extend noise patterns:
