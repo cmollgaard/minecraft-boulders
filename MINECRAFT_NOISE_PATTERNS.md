@@ -150,7 +150,7 @@ Here's what actually happens when you generate a single chunk:
 - Noise: Large scale, low frequency, 2-3 octaves
 - Result: "This area is ocean" or "This area is land"
 
-**Step 2: Elevation**  
+**Step 2: Elevation**
 - Noise: Medium scale, 4-5 octaves
 - Result: "Land here should be at Y=75" or "Y=120 for mountains"
 
@@ -183,7 +183,7 @@ To place boulders naturally using noise:
 
 **Simple Approach:**
 1. Generate a 2D noise value at each X, Z coordinate
-2. If noise value > 0.7: "Place a boulder here"
+2. If noise value > 0.7 (high threshold): "Place a boulder here"
 3. Result: Boulders appear in clusters (where noise is high) but not everywhere
 
 **Why This Works:**
@@ -193,7 +193,7 @@ To place boulders naturally using noise:
 - Players discover boulders as they explore
 
 **What You Control:**
-- **Threshold (0.7)**: Higher = fewer boulders, lower = more boulders
+- **Threshold (e.g., 0.7)**: Higher values (0.8, 0.9) = fewer, rarer boulders; lower values (0.5, 0.6) = more common boulders
 - **Frequency**: Large scale = boulder fields, small scale = scattered boulders
 - **Octaves**: More = boulder patterns have variation within patterns
 
