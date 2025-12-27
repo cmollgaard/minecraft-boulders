@@ -45,22 +45,7 @@
           }
         }
       },
-      "placement": [
-        {
-          "type": "minecraft:block_predicate_filter",
-          "predicate": {
-            "type": "minecraft:matching_blocks",
-            "blocks": [
-              "minecraft:grass_block",
-              "minecraft:dirt",
-              "minecraft:stone",
-              "minecraft:gravel",
-              "minecraft:snow",
-              "minecraft:snow_block"
-            ]
-          }
-        }
-      ]
+      "placement": []
     }
   }
 }
