@@ -20,10 +20,10 @@ This project creates a Minecraft datapack that adds configurable, terrain-aware 
 ### Platform/Framework
 
 - **Platform**: Minecraft Java Edition 1.20+
-- **Format**: Data Pack (pack_format 18, with fallback support for 15-17)
+- **Format**: Data Pack (pack_format 18, with declared support for formats 15 and 18)
 - **Language**: JSON configuration files
 - **Namespace**: `boulders`
-- **Note**: While pack.mcmeta declares support for formats 15-18, the density functions and worldgen features used are optimized for Minecraft 1.20+ (format 18). Earlier versions may have limited or no functionality.
+- **Note**: While pack.mcmeta declares support for formats 15 and 18, the density functions and worldgen features used are optimized for Minecraft 1.20+ (format 18). Format 15 may have limited or no functionality.
 
 ### File Structure
 
@@ -314,7 +314,7 @@ minecraft-boulders/
 
 ### Compatibility Notes
 - Pack format 18 targets Minecraft 1.20+
-- Supports formats 15-18 for broader compatibility
+- Declared support for formats 15 and 18 (as specified in pack.mcmeta)
 - No mod dependencies - pure vanilla datapack
 - Compatible with other datapacks that don't modify terrain generation
 - May conflict with datapacks that heavily modify worldgen noise
