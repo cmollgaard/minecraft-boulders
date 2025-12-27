@@ -286,7 +286,7 @@ If you run out of memory:
 
 - [Minecraft Wiki - Noise Generator](https://minecraft.wiki/w/Noise_generator)
 - [Perlin Noise Explanation](https://en.wikipedia.org/wiki/Perlin_noise)
-- [EXTENDING_NOISE_PATTERNS.md](../EXTENDING_NOISE_PATTERNS.md) - Main documentation
+- [Technical Documentation](../docs/TECHNICAL.md) - Main documentation
 
 ## Contributing
 
